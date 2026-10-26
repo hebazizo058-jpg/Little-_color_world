@@ -28,21 +28,15 @@ body{font-family:'Fredoka',sans-serif;background:#FFF7ED}
 </head>
 <body>
 <div id="homePage">
-<div class="hero">
-<h1>🎨 Mariam's little color world 🌈</h1>
-<p>اختاري رسمة ودوسي جواها عشان تلونيها</p>
-</div>
-<div class="container">
-<div class="card-grid">
+<div class="hero"><h1>🎨 Mariam's little color world 🌈</h1><p>اختاري رسمة ودوسي جواها عشان تلونيها</p></div>
+<div class="container"><div class="card-grid">
 <div class="card" onclick="openColor('1_20261019_073454_0000.png')"><img src="1_20261019_073454_0000.png"><div class="title">🦄 يونيكورن</div></div>
 <div class="card" onclick="openColor('2_20261019_073454_0001.png')"><img src="2_20261019_073454_0001.png"><div class="title">🐱 قطة</div></div>
 <div class="card" onclick="openColor('3_20261019_073455_0002.png')"><img src="3_20261019_073455_0002.png"><div class="title">🌸 زهرة</div></div>
 <div class="card" onclick="openColor('4_20261019_073455_0003.png')"><img src="4_20261019_073455_0003.png"><div class="title">🚀 فضاء</div></div>
 <div class="card" onclick="openColor('6_20261019_073455_0005.png')"><img src="6_20261019_073455_0005.png"><div class="title">🦁 أسد</div></div>
+</div></div>
 </div>
-</div>
-</div>
-
 <div id="colorPage">
 <div class="topbar">
 <button class="btn" style="background:#8D6E63;color:white" onclick="closeColor()">⬅ رجوع</button>
@@ -53,8 +47,18 @@ body{font-family:'Fredoka',sans-serif;background:#FFF7ED}
 <div class="palette" id="pal"></div>
 <canvas id="mainCanvas"></canvas>
 </div>
-
 <script>
-const colors100=["#000000","#FFFFFF","#FF0000","#00E676","#2962FF","#FFEB3B","#FF00FF","#00E5FF","#FF6D00","#7C4DFF","#8B0000","#FF3D00","#FF6E40","#FF9100","#FFAB00","#FFD600","#FFFF00","#EEFF41","#FFF9C4","#FFE0B2","#E91E63","#FF4081","#FF80AB","#FF8A80","#FF1744","#F50057","#EC407A","#F48FB1","#F06292","#E57373","#D32F2F","#C62828","#B71C1C","#EF9A9A","#FFAB91","#FF8A65","#8D6E63","#5D4037","#A1887F","#D7CCC8","#BCAAA4","#FFE0B2","#FFCC80","#FFF3E0","#FFF8E1","#FFFDE7","#F1F8E9","#DCEDC8","#00C853","#00BFA5","#00B8D4","#0091EA","#304FFE","#6200EA","#AA00FF","#D50000","#76FF03","#64DD17","#33691E","#558B2F","#9CCC65","#AED581","#C5E1A5","#CCFF90","#B2FF59","#69F0AE","#00BFA5","#26A69A","#00897B","#00695C","#004D40","#0D47A1","#1565C0","#1976D2","#1E88E5","#42A5F5","#90CAF9","#BBDEFB","#81D4FA","#4FC3F7","#26C6DA","#B2EBF2","#4A148C","#6A1B9A","#7B1FA2","#8E24AA","#AB47BC","#BA68C8","#CE93D8","#E1BEE7","#F3E5F5","#FCE4EC","#FF80AB","#FFCCBC","#D1C4E9","#C8E6C9","#B2DFDB","#F0F4C3","#FFECB3","#FFE0B2","#FFCCBC","#D7CCC8","#F5F5F5","#E0E0E0","#9E9E9E"];
+const colors100=["#000000","#FFFFFF","#FF0000","#00E676","#2962FF","#FFEB3B","#FF00FF","#00E5FF","#FF6D00","#7C4DFF","#8B0000","#FF3D00","#FF6E40","#FF9100","#FFAB00","#FFD600","#FFFF00","#EEFF41","#FFF9C4","#FFE0B2","#E91E63","#FF4081","#FF80AB","#FF8A80","#FF1744","#F50057","#EC407A","#F48FB1","#F06292","#E57373","#D32F2F","#C62828","#B71C1C","#EF9A9A","#FFAB91","#FF8A65","#8D6E63","#5D4037","#A1887F","#D7CCC8","#BCAAA4","#FFE0B2","#FFCC80","#FFF3E0","#FFF8E1","#FFFDE7","#F1F8E9","#DCEDC8","#00C853","#00BFA5","#00B8D4","#0091EA","#304FFE","#6200EA","#AA00FF","#D50000","#76FF03","#64DD17","#33691E","#558B2F","#9CCC65","#AED581","#C5E1A5","#CCFF90","#B2FF59","#69F0AE","#00BFA5","#26A69A","#00897B","#00695C","#004D40","#0D47A1","#1565C0","#1976D2","#1E88E5","#42A5F5","#90CAF9","#BBDEFB","#81D4FA","#4FC3F7","#26C6DA","#B2EBF2","#4A148C","#6A1B9A","#7B1FA2","#8E24AA","#AB47BC","#BA68C8","#CE93D8","#E1BEE7","#F3E5F5","#FCE4EC","#FF80AB"];
 let pal=document.getElementById('pal'); let current=colors100[2];
-colors100.forEach((c,i)=>{let d=document.createElement('div');d.className='color'+(i==2?' active':'');d
+colors100.forEach((c,i)=>{let d=document.createElement('div');d.className='color'+(i==2?' active':'');d.style.background=c;d.onclick=()=>{current=c;document.querySelectorAll('.color').forEach(x=>x.classList.remove('active'));d.classList.add('active');};pal.appendChild(d);});
+let canvas=document.getElementById('mainCanvas'), ctx=canvas.getContext('2d'), imgObj=new Image();
+function openColor(src){
+ document.getElementById('homePage').style.display='none';
+ document.getElementById('colorPage').style.display='block';
+ imgObj = new Image();
+ imgObj.src = src;
+ imgObj.onload=()=>{
+   canvas.width=imgObj.naturalWidth;
+   canvas.height=imgObj.naturalHeight;
+   ctx.clearRect(0,0,canvas.width,canvas.height);
+   ctx.drawImage

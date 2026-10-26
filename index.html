@@ -1,1 +1,60 @@
-<h1><span>🎨</span> Mariam's little color world <span>🌈</span></h1>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mariam's little color world</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Fredoka',sans-serif;background:#FFF7ED}
+.hero{background:linear-gradient(135deg,#FF6B6B,#FFE66D,#4ECDC4);padding:25px 15px 60px;text-align:center}
+.hero h1{font-size:32px;color:white;text-shadow:0 3px 0 #ff4d4d;font-weight:800}
+.hero p{background:white;color:#FF6F00;padding:7px 16px;border-radius:20px;display:inline-block;margin-top:10px;font-weight:600}
+.container{max-width:900px;margin:-35px auto 0;padding:0 15px}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
+.card{background:white;border-radius:20px;padding:10px;box-shadow:0 6px 0 #FFE0B2;cursor:pointer;transition:.2s;text-align:center}
+.card:hover{transform:translateY(-6px)}
+.card img{width:100%;height:130px;object-fit:contain;background:#FFF8E1;border-radius:12px}
+.card .title{margin-top:6px;font-weight:700;color:#5D4037;font-size:13px}
+#colorPage{display:none;position:fixed;inset:0;background:#FFF7ED;z-index:9999;overflow:auto;padding:10px;text-align:center}
+.topbar{max-width:500px;margin:0 auto;background:white;padding:8px 12px;border-radius:14px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+.palette{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;max-width:430px;margin:12px auto;background:white;padding:10px;border-radius:16px;box-shadow:0 4px 0 #FFE0B2}
+.color{width:100%;aspect-ratio:1;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px #999;cursor:pointer}
+.color.active{border:2px solid #000;transform:scale(1.2)}
+#mainCanvas{background:white;border-radius:16px;display:block;margin:12px auto;max-width:95vw;max-height:55vh;box-shadow:0 6px 12px rgba(0,0,0,.15);cursor:pointer}
+.btn{padding:8px 14px;border:none;border-radius:10px;font-weight:700;cursor:pointer}
+</style>
+</head>
+<body>
+<div id="homePage">
+<div class="hero">
+<h1>🎨 Mariam's little color world 🌈</h1>
+<p>اختاري رسمة ودوسي جواها عشان تلونيها</p>
+</div>
+<div class="container">
+<div class="card-grid">
+<div class="card" onclick="openColor('1_20261019_073454_0000.png')"><img src="1_20261019_073454_0000.png"><div class="title">🦄 يونيكورن</div></div>
+<div class="card" onclick="openColor('2_20261019_073454_0001.png')"><img src="2_20261019_073454_0001.png"><div class="title">🐱 قطة</div></div>
+<div class="card" onclick="openColor('3_20261019_073455_0002.png')"><img src="3_20261019_073455_0002.png"><div class="title">🌸 زهرة</div></div>
+<div class="card" onclick="openColor('4_20261019_073455_0003.png')"><img src="4_20261019_073455_0003.png"><div class="title">🚀 فضاء</div></div>
+<div class="card" onclick="openColor('6_20261019_073455_0005.png')"><img src="6_20261019_073455_0005.png"><div class="title">🦁 أسد</div></div>
+</div>
+</div>
+</div>
+
+<div id="colorPage">
+<div class="topbar">
+<button class="btn" style="background:#8D6E63;color:white" onclick="closeColor()">⬅ رجوع</button>
+<b style="color:#FF6F00">لوني براحتك</b>
+<div><button class="btn" style="background:#8D6E63;color:white" onclick="clearCanvas()">مسح</button>
+<button class="btn" style="background:#4ECDC4;color:white" onclick="saveImage()">حفظ 💾</button></div>
+</div>
+<div class="palette" id="pal"></div>
+<canvas id="mainCanvas"></canvas>
+</div>
+
+<script>
+const colors100=["#000000","#FFFFFF","#FF0000","#00E676","#2962FF","#FFEB3B","#FF00FF","#00E5FF","#FF6D00","#7C4DFF","#8B0000","#FF3D00","#FF6E40","#FF9100","#FFAB00","#FFD600","#FFFF00","#EEFF41","#FFF9C4","#FFE0B2","#E91E63","#FF4081","#FF80AB","#FF8A80","#FF1744","#F50057","#EC407A","#F48FB1","#F06292","#E57373","#D32F2F","#C62828","#B71C1C","#EF9A9A","#FFAB91","#FF8A65","#8D6E63","#5D4037","#A1887F","#D7CCC8","#BCAAA4","#FFE0B2","#FFCC80","#FFF3E0","#FFF8E1","#FFFDE7","#F1F8E9","#DCEDC8","#00C853","#00BFA5","#00B8D4","#0091EA","#304FFE","#6200EA","#AA00FF","#D50000","#76FF03","#64DD17","#33691E","#558B2F","#9CCC65","#AED581","#C5E1A5","#CCFF90","#B2FF59","#69F0AE","#00BFA5","#26A69A","#00897B","#00695C","#004D40","#0D47A1","#1565C0","#1976D2","#1E88E5","#42A5F5","#90CAF9","#BBDEFB","#81D4FA","#4FC3F7","#26C6DA","#B2EBF2","#4A148C","#6A1B9A","#7B1FA2","#8E24AA","#AB47BC","#BA68C8","#CE93D8","#E1BEE7","#F3E5F5","#FCE4EC","#FF80AB","#FFCCBC","#D1C4E9","#C8E6C9","#B2DFDB","#F0F4C3","#FFECB3","#FFE0B2","#FFCCBC","#D7CCC8","#F5F5F5","#E0E0E0","#9E9E9E"];
+let pal=document.getElementById('pal'); let current=colors100[2];
+colors100.forEach((c,i)=>{let d=document.createElement('div');d.className='color'+(i==2?' active':'');d

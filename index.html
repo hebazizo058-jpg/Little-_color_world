@@ -1,18 +1,47 @@
-<!DOCTYPE html><html dir="rtl"><head><meta charset="utf-8">
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mariam's world</title>
-<style>body{margin:0;background:#FFF7ED;text-align:center;font-family:sans-serif}
-.hero{background:linear-gradient(135deg,#FF6B6B,#FFE66D,#4ECDC4);padding:25px;color:#fff;font-weight:800;font-size:22px}
+<title>Mariam's little color world</title>
+<style>
+body{margin:0;background:#FFF7ED;font-family:sans-serif;text-align:center}
+.hero{background:linear-gradient(90deg,#FF6B6B,#FFE66D,#4ECDC4);padding:25px;color:#fff;font-size:22px;font-weight:800}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:15px;max-width:420px;margin:-20px auto}
-.card{background:#fff;border-radius:16px;padding:8px;box-shadow:0 5px 0 #FFE0B2}
-.card img{width:100%;height:130px;object-fit:contain}
-#paint{position:fixed;inset:0;background:#FFF7ED;display:none;padding:10px;overflow:auto}
-#cv{background:#fff;border-radius:12px;max-width:95vw;display:block;margin:10px auto}
-</style></head><body>
+.card{background:#fff;border-radius:16px;padding:10px;box-shadow:0 4px 0 #FFE0B2}
+.card img{width:100%;height:130px;object-fit:contain;background:#FFF8E1;border-radius:10px}
+.card div{font-weight:800;margin-top:5px}
+#paint{position:fixed;inset:0;background:#FFF7ED;display:none;padding:10px}
+#cv{background:#fff;border-radius:12px;max-width:95vw;margin:10px auto;display:block;box-shadow:0 4px 10px #0002}
+.btn{padding:8px 14px;border:none;border-radius:10px;font-weight:800;margin:3px}
+</style>
+</head>
+<body>
 <div class="hero">🎨 Mariam's little color world 🌈</div>
-<div class="grid" id="grid"></div>
-<div id="paint"><button onclick="document.getElementById('paint').style.display='none'">⬅ رجوع</button><br><canvas id="cv"></canvas><br><button onclick="clearC()">مسح</button> <button onclick="saveC()">حفظ 💾</button><div id="pal"></div></div>
+<div class="grid">
+<div class="card" onclick="openP(0)"><img src="https://i.imgur.com/8Km9tLL.png"><div>🧜‍♀️ Mermaid</div></div>
+<div class="card" onclick="openP(1)"><img src="https://i.imgur.com/Qh6s8aN.png"><div>🦕 Dino</div></div>
+<div class="card" onclick="openP(2)"><img src="https://i.imgur.com/Yb3sJxQ.png"><div>🕷️ Spider</div></div>
+<div class="card" onclick="openP(3)"><img src="https://i.imgur.com/3o5o3oK.png"><div>🧸 Teddy</div></div>
+<div class="card" onclick="openP(4)"><img src="https://i.imgur.com/5d5o3oK.png"><div>🐟 Dory</div></div>
+</div>
+<div id="paint">
+<div style="background:#fff;padding:8px;border-radius:12px;display:flex;justify-content:space-between;max-width:500px;margin:auto">
+<button class="btn" onclick="document.getElementById('paint').style.display='none'">⬅ رجوع</button>
+<b>لوني</b>
+<div><button class="btn" onclick="clearC()">مسح</button><button class="btn" onclick="saveC()" style="background:#4ECDC4;color:#fff">حفظ 💾</button></div>
+</div>
+<canvas id="cv" width="600" height="600"></canvas>
+<div id="colors"></div>
+</div>
 <script>
-const IMG="data:image/webp;base64,__PUT_WEBP_HERE__"; // هنحط الصورة الكبيرة
-// الكود الكامل موجود في الملف final_cute.html اللي في /mnt/data/
-</script></body></html>
+let cv=document.getElementById('cv'),ctx=cv.getContext('2d'),curC='#ff0000';
+let colors=["#000","#FF0000","#00E676","#2962FF","#FFEB3B","#FF00FF","#00E5FF","#FF6D00","#fff"];
+let pal=document.getElementById('colors');colors.forEach(c=>{let b=document.createElement('button');b.style.background=c;b.style.width='35px';b.style.height='35px';b.style.borderRadius='50%';b.style.margin='4px';b.style.border='2px solid #fff';b.onclick=()=>curC=c;pal.appendChild(b);});
+function openP(n){document.getElementById('paint').style.display='block';ctx.fillStyle='#fff';ctx.fillRect(0,0,600,600);ctx.fillStyle='#000';ctx.font='30px sans-serif';ctx.fillText('اختاري لون ولوني هنا 🎨',80,300);}
+cv.addEventListener('click',e=>{let r=cv.getBoundingClientRect();let x=(e.clientX-r.left)*(600/r.width),y=(e.clientY-r.top)*(600/r.height);ctx.fillStyle=curC;ctx.beginPath();ctx.arc(x,y,18,0,Math.PI*2);ctx.fill();});
+function clearC(){ctx.fillStyle='#fff';ctx.fillRect(0,0,600,600);}
+function saveC(){let a=document.createElement('a');a.download='art.png';a.href=cv.toDataURL();a.click();}
+</script>
+</body>
+</html>

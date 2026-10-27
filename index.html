@@ -3,45 +3,81 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mariam's little color world</title>
+<title>Mariam World</title>
 <style>
 body{margin:0;background:#FFF7ED;font-family:sans-serif;text-align:center}
-.hero{background:linear-gradient(90deg,#FF6B6B,#FFE66D,#4ECDC4);padding:25px;color:#fff;font-size:22px;font-weight:800}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:15px;max-width:420px;margin:-20px auto}
-.card{background:#fff;border-radius:16px;padding:10px;box-shadow:0 4px 0 #FFE0B2}
-.card img{width:100%;height:130px;object-fit:contain;background:#FFF8E1;border-radius:10px}
-.card div{font-weight:800;margin-top:5px}
-#paint{position:fixed;inset:0;background:#FFF7ED;display:none;padding:10px}
-#cv{background:#fff;border-radius:12px;max-width:95vw;margin:10px auto;display:block;box-shadow:0 4px 10px #0002}
-.btn{padding:8px 14px;border:none;border-radius:10px;font-weight:800;margin:3px}
+.hero{background:#FF6B6B;padding:20px;color:#fff;font-size:22px;font-weight:800}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:15px;max-width:400px;margin:0 auto}
+.card{background:#fff;border-radius:20px;padding:20px 10px;box-shadow:0 4px 0 #FFD180;font-size:50px;cursor:pointer}
+.card b{display:block;font-size:14px;margin-top:8px;color:#5D4037}
+#paint{position:fixed;inset:0;background:#FFF7ED;display:none;padding:10px;overflow:auto}
+#cv{background:#fff;border-radius:16px;box-shadow:0 4px 15px #0002;display:block;margin:10px auto;touch-action:none}
+.dot{width:36px;height:36px;border-radius:50%;display:inline-block;margin:4px;border:3px solid #fff;box-shadow:0 1px 3px #0005;cursor:pointer}
 </style>
 </head>
 <body>
 <div class="hero">🎨 Mariam's little color world 🌈</div>
+<p style="background:#fff;display:inline-block;padding:6px 12px;border-radius:20px;margin:10px;font-weight:700;color:#FF6F00">دوسي على واحدة عشان تلونيها</p>
 <div class="grid">
-<div class="card" onclick="openP(0)"><img src="https://i.imgur.com/8Km9tLL.png"><div>🧜‍♀️ Mermaid</div></div>
-<div class="card" onclick="openP(1)"><img src="https://i.imgur.com/Qh6s8aN.png"><div>🦕 Dino</div></div>
-<div class="card" onclick="openP(2)"><img src="https://i.imgur.com/Yb3sJxQ.png"><div>🕷️ Spider</div></div>
-<div class="card" onclick="openP(3)"><img src="https://i.imgur.com/3o5o3oK.png"><div>🧸 Teddy</div></div>
-<div class="card" onclick="openP(4)"><img src="https://i.imgur.com/5d5o3oK.png"><div>🐟 Dory</div></div>
+<div class="card" onclick="openP('🧜‍♀️')">🧜‍♀️<b>Mermaid</b></div>
+<div class="card" onclick="openP('🦕')">🦕<b>Dino Party</b></div>
+<div class="card" onclick="openP('🕷️')">🕷️<b>Spider Hero</b></div>
+<div class="card" onclick="openP('🧸')">🧸<b>Teddy Bear</b></div>
+<div class="card" onclick="openP('🐟')">🐟<b>Dory Fish</b></div>
+<div class="card" onclick="openP('🦄')">🦄<b>Unicorn</b></div>
 </div>
+
 <div id="paint">
-<div style="background:#fff;padding:8px;border-radius:12px;display:flex;justify-content:space-between;max-width:500px;margin:auto">
-<button class="btn" onclick="document.getElementById('paint').style.display='none'">⬅ رجوع</button>
-<b>لوني</b>
-<div><button class="btn" onclick="clearC()">مسح</button><button class="btn" onclick="saveC()" style="background:#4ECDC4;color:#fff">حفظ 💾</button></div>
+<div style="background:#fff;padding:8px;border-radius:12px;display:flex;justify-content:space-between;max-width:500px;margin:0 auto">
+<button onclick="document.getElementById('paint').style.display='none'" style="padding:8px 14px;border:none;border-radius:10px;background:#8D6E63;color:#fff;font-weight:800">⬅ رجوع</button>
+<b id="t">لوني</b>
+<button onclick="clearC()" style="padding:8px 14px;border:none;border-radius:10px;background:#FFAB91;font-weight:800">مسح</button>
 </div>
-<canvas id="cv" width="600" height="600"></canvas>
-<div id="colors"></div>
+<canvas id="cv" width="500" height="500"></canvas>
+<div id="pal" style="background:#fff;padding:10px;border-radius:12px;max-width:400px;margin:10px auto"></div>
+<button onclick="saveC()" style="padding:10px 20px;border:none;border-radius:12px;background:#4ECDC4;color:#fff;font-weight:800;font-size:16px">حفظ الرسمة 💾</button>
 </div>
+
 <script>
-let cv=document.getElementById('cv'),ctx=cv.getContext('2d'),curC='#ff0000';
-let colors=["#000","#FF0000","#00E676","#2962FF","#FFEB3B","#FF00FF","#00E5FF","#FF6D00","#fff"];
-let pal=document.getElementById('colors');colors.forEach(c=>{let b=document.createElement('button');b.style.background=c;b.style.width='35px';b.style.height='35px';b.style.borderRadius='50%';b.style.margin='4px';b.style.border='2px solid #fff';b.onclick=()=>curC=c;pal.appendChild(b);});
-function openP(n){document.getElementById('paint').style.display='block';ctx.fillStyle='#fff';ctx.fillRect(0,0,600,600);ctx.fillStyle='#000';ctx.font='30px sans-serif';ctx.fillText('اختاري لون ولوني هنا 🎨',80,300);}
-cv.addEventListener('click',e=>{let r=cv.getBoundingClientRect();let x=(e.clientX-r.left)*(600/r.width),y=(e.clientY-r.top)*(600/r.height);ctx.fillStyle=curC;ctx.beginPath();ctx.arc(x,y,18,0,Math.PI*2);ctx.fill();});
-function clearC(){ctx.fillStyle='#fff';ctx.fillRect(0,0,600,600);}
-function saveC(){let a=document.createElement('a');a.download='art.png';a.href=cv.toDataURL();a.click();}
+let cv=document.getElementById('cv'),ctx=cv.getContext('2d'),cur='#FF0000',emoji='🧜‍♀️';
+let cols=["#000000","#FF0000","#00E676","#2962FF","#FFEB3B","#FF00FF","#00BCD4","#FF6D00","#795548","#FFFFFF"];
+let pal=document.getElementById('pal');
+cols.forEach(c=>{
+let d=document.createElement('div');d.className='dot';d.style.background=c;
+d.onclick=()=>{cur=c;document.querySelectorAll('.dot').forEach(x=>x.style.outline='');d.style.outline='3px solid #000'};
+pal.appendChild(d);
+});
+pal.firstChild.nextSibling.style.outline='3px solid #000';
+
+function openP(e){
+emoji=e;
+document.getElementById('t').innerText='بلوني '+e;
+document.getElementById('paint').style.display='block';
+clearC();
+}
+function clearC(){
+ctx.fillStyle='#fff';ctx.fillRect(0,0,500,500);
+ctx.font='180px sans-serif';ctx.textAlign='center';ctx.fillText(emoji,250,280);
+ctx.font='18px sans-serif';ctx.fillStyle='#FF8A65';ctx.fillText('لوني حوالين الاموجي يا مريم!',250,350);
+}
+function saveC(){
+let a=document.createElement('a');a.download='mariam-art.png';a.href=cv.toDataURL();a.click();
+}
+cv.addEventListener('click',e=>{
+let r=cv.getBoundingClientRect();
+let x=(e.clientX-r.left)*(500/r.width),y=(e.clientY-r.top)*(500/r.height);
+ctx.fillStyle=cur;ctx.beginPath();ctx.arc(x,y,16,0,Math.PI*2);ctx.fill();
+});
+let drawing=false;
+cv.addEventListener('touchstart',e=>{drawing=true;e.preventDefault();},{passive:false});
+cv.addEventListener('touchmove',e=>{
+if(!drawing)return;
+let r=cv.getBoundingClientRect();
+let x=(e.touches[0].clientX-r.left)*(500/r.width),y=(e.touches[0].clientY-r.top)*(500/r.height);
+ctx.fillStyle=cur;ctx.beginPath();ctx.arc(x,y,14,0,Math.PI*2);ctx.fill();
+},{passive:false});
+cv.addEventListener('touchend',()=>drawing=false);
+clearC();
 </script>
 </body>
 </html>
